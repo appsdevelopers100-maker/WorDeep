@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="splash_bg">#2FA8D8</color>
+    <color name="splash_bg_dark">#184E77</color>
+    <color name="wordig_green">#4EAB3E</color>
+    <color name="wordig_amber">#F59E0B</color>
+</resources>

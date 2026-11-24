@@ -1,10 +1,11 @@
-import { ExamQuestion, Level, WordItem } from '../model/wordGameModels';
+import { ExamQuestion, GameDifficulty, Level, WordItem } from '../model/wordGameModels';
 
 const w = (word: string, arabic: string, length: number): WordItem => ({
   word,
   arabic,
   length,
   isDiscovered: false,
+  revealedIndices: [],
 });
 
 export const LEVELS: Level[] = [
@@ -75,9 +76,7 @@ export const LEVELS: Level[] = [
     id: 8,
     mainWord: 'DIAMETER',
     arabic: 'قطر الدائرة',
-    category: 'Science',
     extractedWords: [
-      w('AT', 'في / عند', 2),
       w('ATE', 'أكل', 3),
       w('DATE', 'تاريخ / تمر', 4),
       w('METER', 'متر', 5),
@@ -88,12 +87,7 @@ export const LEVELS: Level[] = [
     mainWord: 'UMBRELLA',
     arabic: 'مظلة',
     category: 'Objects',
-    extractedWords: [
-      w('BE', 'يكون', 2),
-      w('ME', 'أنا', 2),
-      w('ELL', 'ذراع قياس', 3),
-      w('BELL', 'جرس', 4),
-    ],
+    extractedWords: [w('ELL', 'ذراع قياس', 3), w('BELL', 'جرس', 4)],
   },
   {
     id: 10,
@@ -101,7 +95,6 @@ export const LEVELS: Level[] = [
     arabic: 'زهور',
     category: 'Nature',
     extractedWords: [
-      w('OR', 'أو', 2),
       w('LOW', 'منخفض', 3),
       w('FOR', 'لـ / لأجل', 3),
       w('FLOW', 'تدفق', 4),
@@ -114,7 +107,6 @@ export const LEVELS: Level[] = [
     arabic: 'الماس',
     category: 'Jewelry',
     extractedWords: [
-      w('AM', 'أكون', 2),
       w('DAM', 'سد', 3),
       w('DAD', 'أب', 3),
       w('DIM', 'خافت', 3),
@@ -127,7 +119,6 @@ export const LEVELS: Level[] = [
     arabic: 'حجر',
     category: 'Nature',
     extractedWords: [
-      w('SO', 'لذلك / جداً', 2),
       w('ONE', 'واحد', 3),
       w('TOE', 'إصبع القدم', 3),
       w('SON', 'ابن', 3),
@@ -140,7 +131,6 @@ export const LEVELS: Level[] = [
     arabic: 'سيمفونية',
     category: 'Music',
     extractedWords: [
-      w('MY', 'ملكي', 2),
       w('SON', 'ابن', 3),
       w('SOY', 'صويا', 3),
       w('SHY', 'خجول', 3),
@@ -155,7 +145,6 @@ export const LEVELS: Level[] = [
     extractedWords: [
       w('APP', 'تطبيق', 3),
       w('PIN', 'دبوس', 3),
-      w('ASS', 'حمار', 3),
       w('APE', 'قرد كبير', 3),
       w('PINE', 'صنوبر', 4),
     ],
@@ -179,7 +168,6 @@ export const LEVELS: Level[] = [
     arabic: 'مقعد',
     category: 'School',
     extractedWords: [
-      w('AT', 'في', 2),
       w('SEA', 'بحر', 3),
       w('SET', 'مجموعة', 3),
       w('SAT', 'جلس', 3),
@@ -192,7 +180,6 @@ export const LEVELS: Level[] = [
     arabic: 'قلب',
     category: 'Body',
     extractedWords: [
-      w('HE', 'هو', 2),
       w('HAT', 'قبعة', 3),
       w('EAT', 'يأكل', 3),
       w('ART', 'فن', 3),
@@ -206,7 +193,6 @@ export const LEVELS: Level[] = [
     arabic: 'غابة',
     category: 'Nature',
     extractedWords: [
-      w('OR', 'أو', 2),
       w('FOR', 'لـ', 3),
       w('FOE', 'عدو', 3),
       w('ORE', 'خام المعدن', 3),
@@ -234,7 +220,6 @@ export const LEVELS: Level[] = [
     arabic: 'خبز',
     category: 'Food',
     extractedWords: [
-      w('BE', 'يكون', 2),
       w('BED', 'سرير', 3),
       w('RED', 'أحمر', 3),
       w('BAD', 'سيء', 3),
@@ -248,8 +233,6 @@ export const LEVELS: Level[] = [
     arabic: 'مليار',
     category: 'Numbers',
     extractedWords: [
-      w('IN', 'في', 2),
-      w('ON', 'على', 2),
       w('ION', 'أيون', 3),
       w('BIO', 'سيرة شخصية', 3),
       w('BILL', 'فاتورة', 4),
@@ -262,7 +245,6 @@ export const LEVELS: Level[] = [
     arabic: 'مشكلة',
     category: 'General',
     extractedWords: [
-      w('BE', 'يكون', 2),
       w('ROB', 'يسرق', 3),
       w('PRO', 'محترف', 3),
       w('POEM', 'قصيدة', 4),
@@ -276,8 +258,6 @@ export const LEVELS: Level[] = [
     arabic: 'إبداع',
     category: 'Art',
     extractedWords: [
-      w('AT', 'في', 2),
-      w('IT', 'هو', 2),
       w('CAT', 'قطة', 3),
       w('EAT', 'يأكل', 3),
       w('RAT', 'فأر', 3),
@@ -290,7 +270,6 @@ export const LEVELS: Level[] = [
     arabic: 'مكتبة',
     category: 'Education',
     extractedWords: [
-      w('BY', 'بواسطة', 2),
       w('BAR', 'شريط', 3),
       w('LAY', 'يضع', 3),
       w('RAY', 'شعاع', 3),
@@ -304,7 +283,6 @@ export const LEVELS: Level[] = [
     arabic: 'جميل',
     category: 'General',
     extractedWords: [
-      w('AT', 'في', 2),
       w('BAT', 'مضرب', 3),
       w('BUT', 'لكن', 3),
       w('EAT', 'يأكل', 3),
@@ -363,7 +341,6 @@ export const LEVELS: Level[] = [
     arabic: 'مغامرة',
     category: 'Adventure',
     extractedWords: [
-      w('AD', 'إعلان', 2),
       w('DEN', 'عرين', 3),
       w('VET', 'طبيب بيطري', 3),
       w('DUE', 'مستحق', 3),
@@ -378,7 +355,6 @@ export const LEVELS: Level[] = [
     arabic: 'دفتر ملاحظات',
     category: 'School',
     extractedWords: [
-      w('NO', 'لا', 2),
       w('NOT', 'ليس', 3),
       w('TOO', 'أيضاً', 3),
       w('NOOK', 'ركن', 4),
@@ -393,7 +369,7 @@ export const LEVELS: Level[] = [
     arabic: 'عطلة',
     category: 'Time',
     extractedWords: [
-      w('HAS', 'يمتلك', 3),
+      w('HAY', 'قش', 3),
       w('DAY', 'يوم', 3),
       w('OLD', 'قديم', 3),
       w('LAY', 'يستلقي', 3),
@@ -424,7 +400,6 @@ export const LEVELS: Level[] = [
     arabic: 'سوق',
     category: 'Places',
     extractedWords: [
-      w('AT', 'في', 2),
       w('ART', 'فن', 3),
       w('MET', 'التقى', 3),
       w('MAT', 'سجادة', 3),
@@ -440,7 +415,6 @@ export const LEVELS: Level[] = [
     arabic: 'حرية',
     category: 'General',
     extractedWords: [
-      w('DO', 'يفعل', 2),
       w('FEE', 'رسوم', 3),
       w('RED', 'أحمر', 3),
       w('FED', 'أطعم', 3),
@@ -456,7 +430,6 @@ export const LEVELS: Level[] = [
     arabic: 'شلال',
     category: 'Nature',
     extractedWords: [
-      w('AT', 'في', 2),
       w('ALL', 'الكل', 3),
       w('TEA', 'شاي', 3),
       w('ATE', 'أكل', 3),
@@ -472,9 +445,6 @@ export const LEVELS: Level[] = [
     arabic: 'جبل',
     category: 'Nature',
     extractedWords: [
-      w('IN', 'في', 2),
-      w('ON', 'على', 2),
-      w('AN', 'أداة', 2),
       w('TAN', 'أسمر', 3),
       w('TIN', 'قصدير', 3),
       w('MAIN', 'رئيسي', 4),
@@ -501,9 +471,6 @@ export const LEVELS: Level[] = [
     arabic: 'انتباه',
     category: 'School',
     extractedWords: [
-      w('AT', 'في', 2),
-      w('IN', 'في', 2),
-      w('ON', 'على', 2),
       w('ATE', 'أكل', 3),
       w('TEN', 'عشرة', 3),
       w('ION', 'أيون', 3),
@@ -533,8 +500,6 @@ export const LEVELS: Level[] = [
     arabic: 'رائع',
     category: 'General',
     extractedWords: [
-      w('AS', 'كما', 2),
-      w('AT', 'في', 2),
       w('ANT', 'نملة', 3),
       w('FAN', 'مروحة', 3),
       w('FAT', 'سمين', 3),
@@ -548,9 +513,6 @@ export const LEVELS: Level[] = [
     arabic: 'رائع',
     category: 'General',
     extractedWords: [
-      w('OR', 'أو', 2),
-      w('OF', 'من', 2),
-      w('ON', 'على', 2),
       w('ONE', 'واحد', 3),
       w('ODE', 'قصيدة', 3),
       w('WON', 'فاز', 3),
@@ -565,7 +527,6 @@ export const LEVELS: Level[] = [
     arabic: 'مبنى',
     category: 'Places',
     extractedWords: [
-      w('IN', 'في', 2),
       w('DIN', 'ضوضاء', 3),
       w('BUD', 'برعم', 3),
       w('BUG', 'حشرة', 3),
@@ -582,8 +543,6 @@ export const LEVELS: Level[] = [
     arabic: 'أطفال',
     category: 'People',
     extractedWords: [
-      w('IN', 'في', 2),
-      w('HE', 'هو', 2),
       w('HID', 'اختبأ', 3),
       w('DEN', 'عرين', 3),
       w('HEN', 'دجاجة', 3),
@@ -599,9 +558,6 @@ export const LEVELS: Level[] = [
     arabic: 'أشعة الشمس',
     category: 'Nature',
     extractedWords: [
-      w('IN', 'في', 2),
-      w('US', 'نحن', 2),
-      w('HE', 'هو', 2),
       w('SUN', 'شمس', 3),
       w('SIN', 'خطيئة', 3),
       w('USE', 'يستخدم', 3),
@@ -616,7 +572,6 @@ export const LEVELS: Level[] = [
     arabic: 'صداقة',
     category: 'Social',
     extractedWords: [
-      w('IN', 'في', 2),
       w('DIP', 'غمس', 3),
       w('HIP', 'ورك', 3),
       w('RED', 'أحمر', 3),
@@ -652,9 +607,6 @@ export const LEVELS: Level[] = [
     arabic: 'رسوم متحركة',
     category: 'Art',
     extractedWords: [
-      w('AT', 'في', 2),
-      w('IN', 'في', 2),
-      w('AN', 'أداة', 2),
       w('AIM', 'هدف', 3),
       w('ANT', 'نملة', 3),
       w('ION', 'أيون', 3),
@@ -688,11 +640,7 @@ export const LEVELS: Level[] = [
     arabic: 'تعليم',
     category: 'School',
     extractedWords: [
-      w('IN', 'في', 2),
-      w('ON', 'على', 2),
-      w('AT', 'في', 2),
-      w('TO', 'إلى', 2),
-      w('RAT', 'فأر', 3),
+      w('EAT', 'يأكل', 3),
       w('CON', 'خدعة', 3),
       w('TON', 'طن', 3),
       w('CAN', 'يستطيع', 3),
@@ -709,9 +657,6 @@ export const LEVELS: Level[] = [
     arabic: 'لوحة / رسم',
     category: 'Art',
     extractedWords: [
-      w('AN', 'أداة', 2),
-      w('IN', 'في', 2),
-      w('IT', 'هو', 2),
       w('ANT', 'نملة', 3),
       w('PIN', 'دبوس', 3),
       w('TIN', 'قصدير', 3),
@@ -728,36 +673,427 @@ export const LEVELS: Level[] = [
   },
 ];
 
-export const EXAM_QUESTIONS: ExamQuestion[] = [
-  {
-    id: 1,
-    question: "Which word can be formed from 'FARM' using left-to-right selection?",
-    arabic: 'أي كلمة يمكن تكوينها من FARM باختيار الحروف من اليسار لليمين؟',
-    options: ['ARM', 'RAM', 'MAR', 'MRA'],
-    correctIndex: 0,
-  },
-  {
-    id: 2,
-    question: 'In WORDIG, can you go backward when selecting letters?',
-    arabic: 'هل يمكنك الرجوع للخلف عند اختيار الحروف في ووردج؟',
-    options: ['Yes', 'No', 'Sometimes', 'Only on level 10'],
-    correctIndex: 1,
-  },
-  {
-    id: 3,
-    question: "What does 'CLOUD' mean in Arabic?",
-    arabic: 'ما معنى كلمة CLOUD بالعربية؟',
-    options: ['شمس', 'سحابة', 'مطر', 'رعد'],
-    correctIndex: 1,
-  },
-  {
-    id: 4,
-    question: "Which word is hidden inside 'CHAIR'?",
-    arabic: 'ما هي الكلمة المخفية داخل CHAIR؟',
-    options: ['HAIR', 'CHIP', 'CHAT', 'CHIN'],
-    correctIndex: 0,
-  },
-];
+const HARD_BONUS_WORDS: Record<number, WordItem[]> = {
+  23: [w('CITY', 'مدينة', 4), w('CAVITY', 'تجويف', 6)],
+};
+
+export function getLevelsForDifficulty(difficulty: GameDifficulty): Level[] {
+  return LEVELS.map((level) => {
+    const baseWords = level.extractedWords.filter((item) => item.length >= 3);
+
+    if (difficulty === GameDifficulty.EASY) {
+      // Easy uses simpler, shorter words (sorted shortest-first, up to 3 words per level)
+      const sortedSimple = [...baseWords].sort((a, b) => a.length - b.length);
+      const maxCount = Math.min(3, sortedSimple.length);
+      return {
+        ...level,
+        extractedWords: sortedSimple.slice(0, Math.max(2, maxCount)),
+      };
+    }
+
+    if (difficulty === GameDifficulty.HARD) {
+      // Hard prioritizes complex 4+ letter words and includes extra complex target words
+      const bonus = HARD_BONUS_WORDS[level.id] ?? [];
+      const combined = [...baseWords];
+      for (const b of bonus) {
+        if (!combined.some((existing) => existing.word === b.word)) {
+          combined.push(b);
+        }
+      }
+      const complexOnly = combined.filter((item) => item.length >= 4);
+      const pool = complexOnly.length >= 2 ? complexOnly : combined;
+      const sortedHard = [...pool].sort((a, b) => b.length - a.length);
+      return {
+        ...level,
+        extractedWords: sortedHard,
+      };
+    }
+
+    // Medium keeps a balanced mix (up to 6 words)
+    return {
+      ...level,
+      extractedWords: baseWords.slice(0, Math.max(2, Math.min(6, baseWords.length))),
+    };
+  });
+}
+
+// Distinct, varied questions for Exams 1 to 10 (5 questions per exam, 10 points max per exam)
+export const EXAMS_BY_NUMBER: Record<number, ExamQuestion[]> = {
+  1: [
+    {
+      id: 101,
+      question: "Which word can be formed from 'FARM' using left-to-right selection?",
+      arabic: 'أي كلمة يمكن تكوينها من FARM باختيار الحروف من اليسار لليمين؟',
+      options: ['ARM', 'RAM', 'MAR', 'MRA'],
+      correctIndex: 0,
+    },
+    {
+      id: 102,
+      question: "What does 'CLOUD' mean in Arabic?",
+      arabic: 'ما معنى كلمة CLOUD بالعربية؟',
+      options: ['شمس', 'سحابة', 'مطر', 'رعد'],
+      correctIndex: 1,
+    },
+    {
+      id: 103,
+      question: "Which 4-letter word is hidden inside 'CHAIR'?",
+      arabic: 'ما هي الكلمة المكونة من ٤ حروف والمخفية داخل CHAIR؟',
+      options: ['CHIP', 'CHAT', 'HAIR', 'CHIN'],
+      correctIndex: 2,
+    },
+    {
+      id: 104,
+      question: "Complete the missing letters for 'عربة': C _ R _",
+      arabic: 'أكمل الحروف الناقصة لكلمة عربة:',
+      options: ['E, D', 'O, N', 'U, P', 'A, T'],
+      correctIndex: 3,
+    },
+    {
+      id: 105,
+      question: "Which word can be formed left-to-right from 'JOURNEY'?",
+      arabic: 'أي كلمة يمكن تكوينها من اليسار لليمين من JOURNEY؟',
+      options: ['RUN', 'JOY', 'YOU', 'EAR'],
+      correctIndex: 1,
+    },
+  ],
+  2: [
+    {
+      id: 201,
+      question: "What does 'THUNDER' mean in Arabic?",
+      arabic: 'ما معنى كلمة THUNDER بالعربية؟',
+      options: ['برق', 'رعد', 'سحابة', 'ريح'],
+      correctIndex: 1,
+    },
+    {
+      id: 202,
+      question: "Which 4-letter word can be formed left-to-right from 'PYRAMID'?",
+      arabic: 'أي كلمة يمكن تكوينها من اليسار لليمين من PYRAMID؟',
+      options: ['PAID', 'DAMP', 'MIND', 'PLAY'],
+      correctIndex: 0,
+    },
+    {
+      id: 203,
+      question: "Fill in the missing letters for 'قطر الدائرة': D I A M _ T _ R",
+      arabic: 'أكمل الحروف الناقصة لكلمة قطر الدائرة:',
+      options: ['A, E', 'E, A', 'E, E', 'O, E'],
+      correctIndex: 2,
+    },
+    {
+      id: 204,
+      question: "Which English word means 'مظلة'?",
+      arabic: 'أي كلمة إنجليزية تعني مظلة؟',
+      options: ['FLOWER', 'THUNDER', 'DIAMETER', 'UMBRELLA'],
+      correctIndex: 3,
+    },
+    {
+      id: 205,
+      question: "Which 5-letter word is hidden left-to-right inside 'FLOWER'?",
+      arabic: 'ما الكلمة المكونة من ٥ حروف داخل FLOWER من اليسار لليمين؟',
+      options: ['WORLD', 'LOWER', 'FLOOR', 'POWER'],
+      correctIndex: 1,
+    },
+  ],
+  3: [
+    {
+      id: 301,
+      question: "What does 'DIAMOND' mean in Arabic?",
+      arabic: 'ما معنى كلمة DIAMOND بالعربية؟',
+      options: ['ذهب', 'فضة', 'الماس', 'حجر'],
+      correctIndex: 2,
+    },
+    {
+      id: 302,
+      question: "Which 4-letter word is hidden left-to-right inside 'STONE'?",
+      arabic: 'أي كلمة من ٤ حروف مخفية داخل STONE من اليسار لليمين؟',
+      options: ['TONE', 'NOTE', 'NEST', 'SENT'],
+      correctIndex: 0,
+    },
+    {
+      id: 303,
+      question: "Complete the spelling of 'سيمفونية': S Y M _ H O _ Y",
+      arabic: 'أكمل تهجئة كلمة سيمفونية:',
+      options: ['B, M', 'F, N', 'P, M', 'P, N'],
+      correctIndex: 3,
+    },
+    {
+      id: 304,
+      question: "Which English word means 'سعادة'?",
+      arabic: 'أي كلمة إنجليزية تعني سعادة؟',
+      options: ['STONE', 'HAPPINESS', 'MIRACLE', 'SYMPHONY'],
+      correctIndex: 1,
+    },
+    {
+      id: 305,
+      question: "Which 4-letter word can be formed left-to-right from 'MIRACLE'?",
+      arabic: 'أي كلمة يمكن تكوينها من اليسار لليمين من MIRACLE؟',
+      options: ['CREAM', 'CLEAR', 'RACE', 'CARE'],
+      correctIndex: 2,
+    },
+  ],
+  4: [
+    {
+      id: 401,
+      question: "Which word can be formed left-to-right from 'SEAT'?",
+      arabic: 'أي كلمة يمكن تكوينها من اليسار لليمين من SEAT؟',
+      options: ['EAST', 'TEA', 'SEA', 'ATE'],
+      correctIndex: 2,
+    },
+    {
+      id: 402,
+      question: "What does 'HEART' mean in Arabic?",
+      arabic: 'ما معنى كلمة HEART بالعربية؟',
+      options: ['عين', 'قلب', 'يد', 'عقل'],
+      correctIndex: 1,
+    },
+    {
+      id: 403,
+      question: "Complete the missing letters for 'غابة': F _ R _ S T",
+      arabic: 'أكمل الحروف الناقصة لكلمة غابة:',
+      options: ['O, E', 'A, E', 'O, A', 'U, E'],
+      correctIndex: 0,
+    },
+    {
+      id: 404,
+      question: "Which 4-letter word is hidden left-to-right inside 'SPRING'?",
+      arabic: 'أي كلمة من ٤ حروف مخفية داخل SPRING من اليسار لليمين؟',
+      options: ['GRIN', 'KING', 'SONG', 'RING'],
+      correctIndex: 3,
+    },
+    {
+      id: 405,
+      question: "Which English word means 'خبز'?",
+      arabic: 'أي كلمة إنجليزية تعني خبز؟',
+      options: ['BREAD', 'FOREST', 'SPRING', 'SEAT'],
+      correctIndex: 0,
+    },
+  ],
+  5: [
+    {
+      id: 501,
+      question: "What does 'BILLION' mean in Arabic?",
+      arabic: 'ما معنى كلمة BILLION بالعربية؟',
+      options: ['مليون', 'ألف', 'مليار', 'مئة'],
+      correctIndex: 2,
+    },
+    {
+      id: 502,
+      question: "Which 4-letter word can be formed left-to-right from 'PROBLEM'?",
+      arabic: 'أي كلمة من ٤ حروف مخفية داخل PROBLEM من اليسار لليمين؟',
+      options: ['MORE', 'POEM', 'ROPE', 'BORE'],
+      correctIndex: 1,
+    },
+    {
+      id: 503,
+      question: "Fill in the missing letters for 'مكتبة': L I B _ A _ Y",
+      arabic: 'أكمل الحروف الناقصة لكلمة مكتبة:',
+      options: ['R, R', 'L, R', 'R, N', 'B, R'],
+      correctIndex: 0,
+    },
+    {
+      id: 504,
+      question: "Which English word means 'إبداع'?",
+      arabic: 'أي كلمة إنجليزية تعني إبداع؟',
+      options: ['PROBLEM', 'LIBRARY', 'BEAUTIFUL', 'CREATIVITY'],
+      correctIndex: 3,
+    },
+    {
+      id: 505,
+      question: "Which 4-letter word can be formed left-to-right from 'BEAUTIFUL'?",
+      arabic: 'أي كلمة يمكن تكوينها من اليسار لليمين من BEAUTIFUL؟',
+      options: ['TUBE', 'BEAT', 'LATE', 'TAIL'],
+      correctIndex: 1,
+    },
+  ],
+  6: [
+    {
+      id: 601,
+      question: "What does 'PLANET' mean in Arabic?",
+      arabic: 'ما معنى كلمة PLANET بالعربية؟',
+      options: ['نجم', 'كوكب', 'قمر', 'شمس'],
+      correctIndex: 1,
+    },
+    {
+      id: 602,
+      question: "Which 4-letter word can be formed left-to-right from 'CARRIAGE'?",
+      arabic: 'أي كلمة يمكن تكوينها من اليسار لليمين من CARRIAGE؟',
+      options: ['GEAR', 'DEAR', 'RAGE', 'BEAR'],
+      correctIndex: 2,
+    },
+    {
+      id: 603,
+      question: "Complete the missing letters for 'كرة القدم': F O O T _ A _ L",
+      arabic: 'أكمل الحروف الناقصة لكلمة كرة القدم:',
+      options: ['B, L', 'P, L', 'B, R', 'D, L'],
+      correctIndex: 0,
+    },
+    {
+      id: 604,
+      question: "Which English word means 'مغامرة'?",
+      arabic: 'أي كلمة إنجليزية تعني مغامرة؟',
+      options: ['NOTEBOOK', 'PLANET', 'CARRIAGE', 'ADVENTURE'],
+      correctIndex: 3,
+    },
+    {
+      id: 605,
+      question: "Which 4-letter word is hidden left-to-right inside 'NOTEBOOK'?",
+      arabic: 'أي كلمة من ٤ حروف مخفية داخل NOTEBOOK من اليسار لليمين؟',
+      options: ['BONE', 'BOOK', 'BOAT', 'BOOT'],
+      correctIndex: 1,
+    },
+  ],
+  7: [
+    {
+      id: 701,
+      question: "What does 'HOLIDAY' mean in Arabic?",
+      arabic: 'ما معنى كلمة HOLIDAY بالعربية؟',
+      options: ['عمل', 'مدرسة', 'عطلة', 'سفر'],
+      correctIndex: 2,
+    },
+    {
+      id: 702,
+      question: "Which 4-letter word is hidden left-to-right inside 'TREASURE'?",
+      arabic: 'أي كلمة من ٤ حروف مخفية داخل TREASURE من اليسار لليمين؟',
+      options: ['TRUE', 'STAR', 'RATE', 'SEAT'],
+      correctIndex: 0,
+    },
+    {
+      id: 703,
+      question: "Complete the spelling of 'سوق': M _ R K _ T",
+      arabic: 'أكمل تهجئة كلمة سوق:',
+      options: ['E, A', 'O, E', 'A, I', 'A, E'],
+      correctIndex: 3,
+    },
+    {
+      id: 704,
+      question: "Which English word means 'حرية'?",
+      arabic: 'أي كلمة إنجليزية تعني حرية؟',
+      options: ['MARKET', 'FREEDOM', 'TREASURE', 'WATERFALL'],
+      correctIndex: 1,
+    },
+    {
+      id: 705,
+      question: "Which 5-letter word can be formed left-to-right from 'WATERFALL'?",
+      arabic: 'أي كلمة من ٥ حروف مخفية داخل WATERFALL من اليسار لليمين؟',
+      options: ['LATER', 'AFTER', 'WATER', 'FLAME'],
+      correctIndex: 2,
+    },
+  ],
+  8: [
+    {
+      id: 801,
+      question: "What does 'MOUNTAIN' mean in Arabic?",
+      arabic: 'ما معنى كلمة MOUNTAIN بالعربية؟',
+      options: ['بحر', 'جبل', 'نهر', 'وادي'],
+      correctIndex: 1,
+    },
+    {
+      id: 802,
+      question: "Which 5-letter word is hidden left-to-right inside 'BRIGHT'?",
+      arabic: 'أي كلمة من ٥ حروف مخفية داخل BRIGHT من اليسار لليمين؟',
+      options: ['RIGHT', 'LIGHT', 'NIGHT', 'TIGHT'],
+      correctIndex: 0,
+    },
+    {
+      id: 803,
+      question: "Fill in the missing letters for 'انتباه': A T T E _ T _ O N",
+      arabic: 'أكمل الحروف الناقصة لكلمة انتباه:',
+      options: ['M, I', 'N, E', 'N, I', 'R, I'],
+      correctIndex: 2,
+    },
+    {
+      id: 804,
+      question: "Which English word means 'فراشة'?",
+      arabic: 'أي كلمة إنجليزية تعني فراشة؟',
+      options: ['FANTASTIC', 'BRIGHT', 'MOUNTAIN', 'BUTTERFLY'],
+      correctIndex: 3,
+    },
+    {
+      id: 805,
+      question: "Which 5-letter word can be formed left-to-right from 'FANTASTIC'?",
+      arabic: 'أي كلمة من ٥ حروف مخفية داخل FANTASTIC من اليسار لليمين؟',
+      options: ['STACK', 'ATTIC', 'TASTE', 'SCENT'],
+      correctIndex: 1,
+    },
+  ],
+  9: [
+    {
+      id: 901,
+      question: "What does 'WONDERFUL' mean in Arabic?",
+      arabic: 'ما معنى كلمة WONDERFUL بالعربية؟',
+      options: ['رائع', 'صعب', 'سريع', 'قديم'],
+      correctIndex: 0,
+    },
+    {
+      id: 902,
+      question: "Which 5-letter word is hidden left-to-right inside 'BUILDING'?",
+      arabic: 'أي كلمة من ٥ حروف مخفية داخل BUILDING من اليسار لليمين؟',
+      options: ['BLIND', 'GUILD', 'BUILD', 'BINGO'],
+      correctIndex: 2,
+    },
+    {
+      id: 903,
+      question: "Complete the spelling of 'أطفال': C H _ L D _ E N",
+      arabic: 'أكمل تهجئة كلمة أطفال:',
+      options: ['E, R', 'I, R', 'I, L', 'A, R'],
+      correctIndex: 1,
+    },
+    {
+      id: 904,
+      question: "Which English word means 'أشعة الشمس'?",
+      arabic: 'أي كلمة إنجليزية تعني أشعة الشمس؟',
+      options: ['BUILDING', 'WONDERFUL', 'FRIENDSHIP', 'SUNSHINE'],
+      correctIndex: 3,
+    },
+    {
+      id: 905,
+      question: "Which 4-letter word can be formed left-to-right from 'FRIENDSHIP'?",
+      arabic: 'أي كلمة من ٤ حروف مخفية داخل FRIENDSHIP من اليسار لليمين؟',
+      options: ['SHIP', 'PINE', 'HIDE', 'RIDE'],
+      correctIndex: 0,
+    },
+  ],
+  10: [
+    {
+      id: 1001,
+      question: "What does 'HOSPITAL' mean in Arabic?",
+      arabic: 'ما معنى كلمة HOSPITAL بالعربية؟',
+      options: ['مدرسة', 'مكتبة', 'مستشفى', 'سوق'],
+      correctIndex: 2,
+    },
+    {
+      id: 1002,
+      question: "Which 6-letter word is hidden left-to-right inside 'ANIMATION'?",
+      arabic: 'أي كلمة من ٦ حروف مخفية داخل ANIMATION من اليسار لليمين؟',
+      options: ['MOTION', 'NATION', 'ACTION', 'STATION'],
+      correctIndex: 1,
+    },
+    {
+      id: 1003,
+      question: "Fill in the missing letters for 'هدية / حاضر': P R _ S _ N T",
+      arabic: 'أكمل الحروف الناقصة لكلمة هدية / حاضر:',
+      options: ['E, E', 'A, E', 'E, A', 'I, E'],
+      correctIndex: 0,
+    },
+    {
+      id: 1004,
+      question: "Which English word means 'تعليم'?",
+      arabic: 'أي كلمة إنجليزية تعني تعليم؟',
+      options: ['PAINTING', 'ANIMATION', 'HOSPITAL', 'EDUCATION'],
+      correctIndex: 3,
+    },
+    {
+      id: 1005,
+      question: "Which 5-letter word can be formed left-to-right from 'PAINTING'?",
+      arabic: 'أي كلمة من ٥ حروف مخفية داخل PAINTING من اليسار لليمين؟',
+      options: ['GIANT', 'PLANT', 'PAINT', 'TRAIN'],
+      correctIndex: 2,
+    },
+  ],
+};
+
+export function getQuestionsForExam(examNumber: number): ExamQuestion[] {
+  return EXAMS_BY_NUMBER[examNumber] ?? EXAMS_BY_NUMBER[1];
+}
 
 export interface FaqItem {
   question: string;
@@ -768,7 +1104,7 @@ export const FAQ_LIST: FaqItem[] = [
   {
     question: 'What is WORDIG?',
     answer:
-      'WORDIG is an engaging word puzzle game where players find smaller words hidden inside a larger main word following specific left-to-right sequencing rules.',
+      'WORDIG is an engaging word puzzle game where players find smaller words (at least 3 letters) hidden inside a larger main word following specific left-to-right sequencing rules.',
   },
   {
     question: 'Does the game require internet?',
@@ -777,7 +1113,7 @@ export const FAQ_LIST: FaqItem[] = [
   {
     question: 'How are points calculated?',
     answer:
-      'Points depend on word length (2 letters = 5 pts, up to 7+ letters = 30 pts). Hints cost 50 points.',
+      'Points depend on word length (3 letters = 8 pts, 4 letters = 12 pts, 5 letters = 15 pts, 6+ letters = 20 pts). Extra valid English words (3+ letters) award +5 pts each. Hints cost 50 points and reveal 1 letter. Each Exam Checkpoint is worth up to 10 points and can be retaken anytime to improve your best score.',
   },
   {
     question: 'Can I go backward when selecting letters?',
@@ -793,17 +1129,17 @@ Last Updated: October 15, 2026
 export const TERMS_TEXT = `WORDIG – TERMS AND CONDITIONS
 Last Updated: October 15, 2026
 1. ACCEPTANCE: By playing WORDIG, you agree to these terms.
-2. RULES: Left-to-right selection, no backward selection.`;
+2. RULES: Left-to-right selection, minimum 3-letter words, no backward selection.`;
 
 export const HOW_TO_PLAY_TEXT = `EVERY WORD HIDES MORE.
 
 WORDIG is a word puzzle game where one main word hides many smaller words. Your challenge is to discover them.
 
 THE MAIN RULE:
-Letters must always be selected from left to right. You can skip letters, but you cannot go backward or return to an earlier letter after selecting a later one.
+Letters must always be selected from left to right (minimum 3 letters per word). You can skip letters, but you cannot go backward or return to an earlier letter after selecting a later one.
 
 FIND THE HIDDEN WORDS:
-Around the main word, you will see word boxes containing empty squares. The number of squares shows the number of letters in a hidden word (e.g. [ ] [ ] [ ] means a 3-letter word).
+Below the main word, you will see word boxes containing empty squares. The number of squares shows the number of letters in a hidden word (e.g. [ ] [ ] [ ] means a 3-letter word).
 
-SCORE MORE POINTS:
-Longer words are worth more points. Each successfully discovered extra word awards 5 points. Hint cost is 20 points.`;
+SCORE MORE POINTS & EXTRA WORDS:
+Longer words are worth more points. Valid 3+ letter English words outside the target list count as Extra Words and award +5 points each. Hints cost 50 points and reveal 1 letter of a hidden word. Every 5 levels unlocks a 10-point Exam Checkpoint that you can retake anytime to improve your best score.`;
